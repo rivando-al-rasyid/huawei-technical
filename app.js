@@ -8,7 +8,9 @@ app.use(express.static("public"));
 const users = [];
 
 app.post("/user/add", (req, res) => {
-  users.push(req.body);
+  const { name, email } = req.query;
+
+  users.push({ name, email });
 
   res.json({
     message: "Data berhasil disimpan",
