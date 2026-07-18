@@ -5,36 +5,58 @@ const btnMuatData = document.querySelector(".btn-fetch");
 const kontainerData = document.querySelector(".kontainerData");
 
 form.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-        const response = await fetch(
-            `http://localhost:3000/user/add?name=${encodeURIComponent(nama.value)}&email=${encodeURIComponent(email.value)}`,
-            {
-                method: "POST",
-            }
-        );
+  const namaValue = nama.value.trim();
+  const emailValue = email.value.trim();
 
-        const data = await response.json();
-        alert(data.message);
-        nama.value = "";
-        email.value = "";
-    } catch (err) {
-        console.error(err);
-    }
+  if (namaValue === "") {
+    alert("Nama tidak boleh kosong!");
+    return;
+  }
+
+  if (emailValue === "") {
+    alert("Email tidak boleh kosong!");
+    return;
+  }
+
+  // Validasi format email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(emailValue)) {
+    alert("Format email tidak valid!");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:3000/user/add?name=${encodeURIComponent(namaValue)}&email=${encodeURIComponent(emailValue)}`,
+      {
+        method: "POST",
+      },
+    );
+
+    const data = await response.json();
+    alert(data.message);
+
+    nama.value = "";
+    email.value = "";
+  } catch (err) {
+    console.error(err);
+    alert("Terjadi kesalahan saat mengirim data.");
+  }
 });
-
 btnMuatData.addEventListener("click", async function () {
-    try {
-        const response = await fetch("http://localhost:3000/user/list");
-        const users = await response.json();
-        kontainerData.innerHTML = "";
-        users.forEach((user) => {
-            const p = document.createElement("p");
-            p.textContent = `${user.name} - ${user.email}`;
-            kontainerData.appendChild(p);
-        });
-    } catch (err) {
-        console.error(err);
-    }
+  try {
+    const response = await fetch("http://localhost:3000/user/list");
+    const users = await response.json();
+    kontainerData.innerHTML = "";
+    users.forEach((user) => {
+      const p = document.createElement("p");
+      p.textContent = `${user.name} - ${user.email}`;
+      kontainerData.appendChild(p);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
