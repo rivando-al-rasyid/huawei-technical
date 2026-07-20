@@ -1,4 +1,0 @@
-0 8 * * * /home/cron/cron.sh
-0 12 * * * /home/cron/cron.sh
-0 15 * * * /home/cron/cron.sh
-0 0 1 * * /home/cron/clean.sh
