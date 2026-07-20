@@ -10,13 +10,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 
-const users = [];
+// middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-
-
-
+const users = [];
 app.post("/user/add", (req, res) => {
   const { name, email } = req.body;
   if (!name?.trim() || !email?.trim()) {
@@ -48,6 +46,19 @@ app.post("/user/add", (req, res) => {
 // Get all users
 app.get("/user/list", (req, res) => {
   res.json(users);
+});
+
+app.delete("/user/delete/:id", (req, res) => {
+  const { id } = req.params;
+
+  const initialLength = users.length;
+  users = users.filter((u) => u.id !== id);
+
+  if (users.length === initialLength) {
+    return res.status(404).json({ message: "User tidak ditemukan." });
+  }
+
+  res.json({ message: "User berhasil dihapus!" });
 });
 
 // Handle invalid JSON
