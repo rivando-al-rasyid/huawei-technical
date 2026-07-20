@@ -14,10 +14,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.post("/user/add", (req, res) => {
   const { name, email } = req.body;
-
   if (!name?.trim() || !email?.trim()) {
     return res.status(400).json({
       message: "Name and email are required",
+    });
+  }
+  const existingUser = users.find((user) => user.email === email);
+  if (existingUser) {
+    return res.status(400).json({
+      message: "Email already exists",
     });
   }
 
