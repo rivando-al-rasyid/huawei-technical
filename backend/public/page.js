@@ -29,12 +29,16 @@ form.addEventListener("submit", async function (e) {
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:3000/user/add?name=${encodeURIComponent(namaValue)}&email=${encodeURIComponent(emailValue)}`,
-      {
-        method: "POST",
+    const response = await fetch("http://localhost:3000/user/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        name: namaValue,
+        email: emailValue,
+      }),
+    });
 
     const data = await response.json();
     alert(data.message);
@@ -46,6 +50,7 @@ form.addEventListener("submit", async function (e) {
     alert("Terjadi kesalahan saat mengirim data.");
   }
 });
+
 btnMuatData.addEventListener("click", async function () {
   try {
     const response = await fetch("http://localhost:3000/user/list");
