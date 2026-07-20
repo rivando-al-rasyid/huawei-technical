@@ -1,6 +1,7 @@
 const form = document.querySelector(".formPendaftaran");
 const nama = document.querySelector(".nama");
 const email = document.querySelector(".email");
+const password = document.querySelector(".password");
 const btnMuatData = document.querySelector(".btn-fetch");
 const kontainerData = document.querySelector(".kontainerData");
 
@@ -9,6 +10,7 @@ form.addEventListener("submit", async function (e) {
 
   const namaValue = nama.value.trim();
   const emailValue = email.value.trim();
+  const passwordValue = password.value.trim();
 
   if (namaValue === "") {
     alert("Nama tidak boleh kosong!");
@@ -17,6 +19,11 @@ form.addEventListener("submit", async function (e) {
 
   if (emailValue === "") {
     alert("Email tidak boleh kosong!");
+    return;
+  }
+
+  if (passwordValue === "") {
+    alert("Password tidak boleh kosong!");
     return;
   }
 
@@ -37,6 +44,7 @@ form.addEventListener("submit", async function (e) {
       body: JSON.stringify({
         name: namaValue,
         email: emailValue,
+        password: passwordValue,
       }),
     });
 

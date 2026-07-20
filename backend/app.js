@@ -16,10 +16,10 @@ app.use(express.json());
 
 const users = [];
 app.post("/user/add", (req, res) => {
-  const { name, email } = req.body;
-  if (!name?.trim() || !email?.trim()) {
+  const { name, email, password } = req.body;
+  if (!name?.trim() || !email?.trim() || !password?.trim()) {
     return res.status(400).json({
-      message: "Name and email are required",
+      message: "Name, email, and password are required",
     });
   }
   const existingUser = users.find((user) => user.email === email);
