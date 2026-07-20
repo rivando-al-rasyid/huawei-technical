@@ -1,13 +1,17 @@
 import express from "express";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const app = express();
 const port = 3000;
 
-app.use(express.static("backend\\public"));
-app.use(express.json());
-
 const users = [];
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 app.post("/user/add", (req, res) => {
   const { name, email } = req.body;
 
