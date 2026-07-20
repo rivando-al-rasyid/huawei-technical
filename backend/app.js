@@ -1,6 +1,7 @@
 import express from "express";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {randomUUID} from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,6 +13,10 @@ const port = 3000;
 const users = [];
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
+
+
+
 app.post("/user/add", (req, res) => {
   const { name, email } = req.body;
   if (!name?.trim() || !email?.trim()) {
@@ -26,11 +31,14 @@ app.post("/user/add", (req, res) => {
     });
   }
 
-  users.push({ name, email });
+  const userId = randomUUID();
+
+  users.push({ id: userId, name, email });
 
   res.status(201).json({
     message: "Data berhasil disimpan",
     data: {
+      id: userId,
       name,
       email,
     },
